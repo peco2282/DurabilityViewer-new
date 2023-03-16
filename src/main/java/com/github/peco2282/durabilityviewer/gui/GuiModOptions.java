@@ -3,10 +3,10 @@ package com.github.peco2282.durabilityviewer.gui;
 import com.github.peco2282.durabilityviewer.SliderValueConsumer;
 import com.github.peco2282.durabilityviewer.color.ColorPicker;
 import com.github.peco2282.durabilityviewer.color.ColorSelector;
-import com.github.peco2282.durabilityviewer.event.ConfigChangedEvent;
 import com.github.peco2282.durabilityviewer.config.ConfigurationMinecraftColor;
 import com.github.peco2282.durabilityviewer.config.ConfigurationTrueColor;
 import com.github.peco2282.durabilityviewer.config.ModConfigurationHandler;
+import com.github.peco2282.durabilityviewer.event.ConfigChangedEvent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
@@ -28,11 +28,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import static net.minecraft.client.gui.components.AbstractWidget.WIDGETS_LOCATION;
 
-@SuppressWarnings({"DataFlowIssue", "StatementWithEmptyBody"})
+@SuppressWarnings("StatementWithEmptyBody")
 public class GuiModOptions extends Screen implements Supplier<Screen>, SliderValueConsumer {
 
   private static final int LINEHEIGHT = 25;
@@ -47,13 +48,13 @@ public class GuiModOptions extends Screen implements Supplier<Screen>, SliderVal
   private final List<String> options;
   private final Logger LOGGER;
   private final String screenTitle;
+  private final ColorSelector colorSelector;
+  private final ColorPicker colorPicker;
   private boolean isDraggingScrollbar = false;
   private boolean mouseReleased = false;      // used to capture mouse release events when a child slider has the mouse dragging
   private int buttonWidth;
   private int scrollAmount;
   private int maxScroll;
-  private final ColorSelector colorSelector;
-  private final ColorPicker colorPicker;
 
   @SuppressWarnings("OverridableMethodCallInConstructor")
   public GuiModOptions(Screen parent, String modName, ModConfigurationHandler confHandler) {
@@ -99,9 +100,7 @@ public class GuiModOptions extends Screen implements Supplier<Screen>, SliderVal
           }
         }
         handler.onConfigChanged(new ConfigChangedEvent.OnConfigChangedEvent(modName));
-        if (minecraft != null) {
-          minecraft.setScreen(parent);
-        }
+        Objects.requireNonNull(minecraft).setScreen(parent);
       }
 
       @Override
@@ -213,7 +212,7 @@ public class GuiModOptions extends Screen implements Supplier<Screen>, SliderVal
           public void setMessage(@Nullable Component ignored) {
             Object o = handler.getIConfig().getValue(option);
             int newIndex = ((ConfigurationMinecraftColor) o).colorIndex;
-            super.setMessage(Component.translatable("de.guntram.mcmod.fabrictools.color").withStyle(ChatFormatting.getById(newIndex)));
+            super.setMessage(Component.translatable("de.guntram.mcmod.fabrictools.color").withStyle(Objects.requireNonNull(ChatFormatting.getById(newIndex))));
           }
 
           @Override

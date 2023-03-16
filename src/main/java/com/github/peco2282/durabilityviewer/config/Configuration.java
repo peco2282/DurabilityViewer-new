@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.peco2282.durabilityviewer.config;
 
 import com.google.gson.Gson;
@@ -23,9 +18,9 @@ public class Configuration implements IConfiguration {
 
   private static final java.lang.reflect.Type MAP_TYPE = new TypeToken<Map<String, ConfigurationItem>>() {
   }.getType();
+  private final File configFile;
   private Map<String, ConfigurationItem> items;
   private boolean wasChanged;
-  private final File configFile;
 
   public Configuration(File configFile) {
     this.configFile = configFile;
@@ -48,9 +43,10 @@ public class Configuration implements IConfiguration {
         if (entry.getValue().getValue() instanceof Map) {
           Map<String, ConfigurationItem> map = (Map<String, ConfigurationItem>) entry.getValue().getValue();
           Object type = map.get("type");
-          if (type.toString().equals(ConfigurationMinecraftColor.class.getSimpleName())) {
+          String typeClass = type.getClass().getSimpleName();
+          if (typeClass.equals(ConfigurationMinecraftColor.class.getSimpleName())) {
             entry.getValue().setValue(ConfigurationMinecraftColor.fromJsonMap(map));
-          } else if (type.toString().equals(ConfigurationTrueColor.class.getSimpleName())) {
+          } else if (typeClass.equals(ConfigurationTrueColor.class.getSimpleName())) {
             entry.getValue().setValue(ConfigurationTrueColor.fromJsonMap(map));
           }
         }

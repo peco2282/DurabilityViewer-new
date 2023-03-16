@@ -1,9 +1,9 @@
 package com.github.peco2282.durabilityviewer.handler;
 
 import com.github.peco2282.durabilityviewer.Durabilityviewer;
-import com.github.peco2282.durabilityviewer.event.ConfigChangedEvent;
 import com.github.peco2282.durabilityviewer.config.Configuration;
 import com.github.peco2282.durabilityviewer.config.ModConfigurationHandler;
+import com.github.peco2282.durabilityviewer.event.ConfigChangedEvent;
 import com.github.peco2282.durabilityviewer.gui.Corner;
 import net.minecraft.ChatFormatting;
 

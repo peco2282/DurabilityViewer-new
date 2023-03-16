@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,8 +22,7 @@ public class TooltipEvent {
     if (!event.getFlags().isAdvanced() && !event.getItemStack().isEmpty()) {
       final ItemStack itemStack = event.getItemStack();
       if (itemStack.isDamaged()) {
-        ConfigurationHandler.getInstance();
-        @NotNull final String toolTip = ConfigurationHandler.getTooltipColor() +
+        final String toolTip = ConfigurationHandler.getTooltipColor() +
             I18n.get("tooltip.durability",
                 (itemStack.getMaxDamage() - itemStack.getDamageValue()) +
                     " / " +

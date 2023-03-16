@@ -74,18 +74,16 @@ public class GuiItemDurability extends Gui {
 
   private int getInventoryArrowCount() {
     int arrows = 0;
-    if (minecraft.player != null) {
-      for (final ItemStack stack : minecraft.player.getInventory().items) {
-        if (isArrow(stack)) {
-          arrows += stack.getCount();
-        }
+    for (final ItemStack stack : Objects.requireNonNull(minecraft.player).getInventory().items) {
+      if (isArrow(stack)) {
+        arrows += stack.getCount();
       }
     }
     return arrows;
   }
 
   private ItemStack getFirstArrowStack() {
-    if (minecraft.player != null && isArrow(minecraft.player.getItemInHand(InteractionHand.OFF_HAND))) {
+    if (isArrow(Objects.requireNonNull(minecraft.player).getItemInHand(InteractionHand.OFF_HAND))) {
       return minecraft.player.getItemInHand(InteractionHand.OFF_HAND);
     }
     if (isArrow(minecraft.player.getItemInHand(InteractionHand.MAIN_HAND))) {
@@ -262,34 +260,29 @@ public class GuiItemDurability extends Gui {
     if (ConfigurationHandler.showEffectDuration()) {
       // a lot of this is copied from net/minecraft/client/gui/GuiIngame.java
       Window mainWindow = minecraft.getWindow();
-      Collection<MobEffectInstance> collection = null;
-      if (minecraft.player != null) {
-        collection = minecraft.player.getActiveEffects();
-      }
+      Collection<MobEffectInstance> collection = Objects.requireNonNull(minecraft.player).getActiveEffects();
       int posGood = 0, posBad = 0;
-      if (collection != null) {
-        for (MobEffectInstance potioneffect : Ordering.natural().reverse().sortedCopy(collection)) {
-          if (potioneffect.isVisible()) {
-            MobEffect potion = potioneffect.getEffect();
-            int xpos = mainWindow.getGuiScaledWidth();
-            int ypos;
-            if (potion.isBeneficial()) {
-              posGood += 25;
-              xpos -= posGood;
-              ypos = 15;
-            } else {
-              posBad += 25;
-              xpos -= posBad;
-              ypos = 41;
-            }
-            int duration = potioneffect.getDuration();
-            String show;
-            if (duration > 1200)
-              show = (duration / 1200) + "m";
-            else
-              show = (duration / 20) + "s";
-            fontRenderer.draw(event.getPoseStack(), show, xpos + 2, ypos, ItemIndicator.color_yellow);        // draw
+      for (MobEffectInstance potioneffect : Ordering.natural().reverse().sortedCopy(collection)) {
+        if (potioneffect.isVisible()) {
+          MobEffect potion = potioneffect.getEffect();
+          int xpos = mainWindow.getGuiScaledWidth();
+          int ypos;
+          if (potion.isBeneficial()) {
+            posGood += 25;
+            xpos -= posGood;
+            ypos = 15;
+          } else {
+            posBad += 25;
+            xpos -= posBad;
+            ypos = 41;
           }
+          int duration = potioneffect.getDuration();
+          String show;
+          if (duration > 1200)
+            show = (duration / 1200) + "m";
+          else
+            show = (duration / 20) + "s";
+          fontRenderer.draw(event.getPoseStack(), show, xpos + 2, ypos, ItemIndicator.color_yellow);        // draw
         }
       }
     }

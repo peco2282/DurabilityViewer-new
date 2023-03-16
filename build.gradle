@@ -7,7 +7,7 @@ group = 'com.github.peco2282'
 version = '1.0-SNAPSHOT'
 
 java {
-  archivesBaseName = 'durabilityviewer'
+  archivesBaseName = 'Newdurabilityviewer'
   toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
@@ -148,7 +148,7 @@ dependencies {
 jar {
   manifest {
     attributes([
-        "Specification-Title"     : "durabilityviewer-1.19.3",
+        "Specification-Title"     : "Newdurabilityviewer-1.19.3",
         //"Specification-Vendor": "durabilityviewer authors",
         "Specification-Version"   : "1", // We are version 1 of ourselves
         "Implementation-Title"    : project.name,
